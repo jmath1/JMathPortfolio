@@ -55,7 +55,9 @@ ROOT_URLCONF = "portfolio.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            os.path.join(BASE_DIR, 'templates')
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -77,11 +79,11 @@ WSGI_APPLICATION = "portfolio.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'mydatabase'),
-        'USER': os.environ.get('DB_USER', 'mydatabaseuser'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'mypassword'),
+        'NAME': os.environ.get('POSTGRES_DB', 'mydatabase'),
+        'USER': os.environ.get('POSTGRES_USER', 'mydatabaseuser'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'mypassword'),
         'HOST': os.environ.get('DB_HOST', 'db'),  # Use the service name of your PostgreSQL container
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }
 
@@ -120,8 +122,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
-
+STATIC_URL = "/assets/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "portfolio/assets/"),  # Add your additional directory here
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
