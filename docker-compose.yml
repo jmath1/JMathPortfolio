@@ -11,10 +11,14 @@ services:
       - db
     env_file:
       - .env
+    command:
+      - /bin/bash
+      - -c 
+      - python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./portfolio:/app/
   db:
-    image: postgres:13
+    image: postgres:16
     env_file:
       - .env
     ports:
