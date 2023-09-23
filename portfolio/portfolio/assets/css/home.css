@@ -7,15 +7,15 @@
 
 /* Set a background color and font styles for the entire page */
 body {
-    background-color: #f4f4f4;
-    font-family: Arial, sans-serif;
+    background-color: #ffff; /* Black background */
+    font-family: 'Courier New', Courier, monospace;
     line-height: 1.6;
-    color: #333;
+    color: #000; /* White text color */
 }
 
 /* Style the header */
 header {
-    background-color: #1a1a1a;
+    background-color: #1a1a1a; /* Dark gray background */
     color: #fff;
     padding: 20px 0;
     text-align: center;
@@ -55,7 +55,7 @@ section h2 {
 /* Style links */
 a {
     text-decoration: none;
-    color: #007bff;
+    color: midnightblue;
     transition: color 0.3s ease;
 }
 
@@ -65,7 +65,7 @@ a:hover {
 
 /* Style the footer */
 footer {
-    background-color: #1a1a1a;
+    background-color: #1a1a1a; /* Dark gray background */
     color: #fff;
     text-align: center;
     padding: 10px 0;
@@ -74,4 +74,58 @@ footer {
 /* Add smooth scrolling for anchor links */
 html {
     scroll-behavior: smooth;
+}
+
+.whiteSection {
+    background-color: #fff;
+    color: #1a1a1a;
+    padding: 10px 50px;
+    font-family: 'Courier New', Courier, monospace;
+}
+.whiteSection p {
+    width: 75%;
+}
+/* Style the blackSection */
+.blackSection {
+    background-color: #1a1a1a; /* Black background */
+    color: #fff; /* White text color */
+    padding: 50px;
+}
+
+/* Style the iconSet */
+.iconSet {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Add a shadow effect to the icons on hover */
+.imageIcon:hover img {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Adjust the shadow properties as desired */
+    width: 120px;
+    height: 120px;
+}
+
+/* Style individual image icons */
+.imageIcon img {
+    width: 110px; /* Adjust the size as needed */
+    height: 110px; /* Adjust the size as needed */
+    margin: 10px; /* Adjust the margin as needed for spacing */
+}
+
+/* Style the blackIconSet */
+.blackIconSet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Add padding for spacing */
+}
+
+/* Style individual blackImageIcons */
+.blackImageIcon img {
+    width: 175px; /* Adjust the size as needed */
+    height: 175px; /* Adjust the size as needed */
+    margin: 10px; /* Adjust the margin as needed for spacing */
 }
