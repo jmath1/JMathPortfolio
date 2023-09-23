@@ -3,8 +3,80 @@
 {% block title %}Home - Jonathan Math{% endblock %}
 
 {% block content %}
-<section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+</script>
+
+<section class="whiteSection">
+    {% load static %}
     <h2>Welcome to the Home Page</h2>
-    <p>This is the home page of My Site. You can add your home page content here.</p>
+    <section class="scrollable-section">
+        <h2>About Me</h2>
+        <p>
+            Hi, I'm Jonathan Math, a dedicated programmer with a passion for technology and a penchant for problem-solving. Over the years, I've immersed myself in the world of software development and DevOps, honing my skills and gaining valuable experience.
+        </p>
+        <br>
+        <p>
+            My journey began at Temple University, where I earned my B.A. with a Minor in Management Information Systems in December 2015. Along the way, I delved into the intricacies of programming, learning Python, Java, Ruby, and SQL and laying the foundation for my future in programming.
+        </p>
+        <br>
+        <p>
+            What sets me apart is my commitment to continuous learning and improvement. I hold a range of certifications, including AWS Certified Solutions Architect Associate, AWS Certified Developer Associate, Hashicorp Certified Terraform Associate, and Certified Kubernetes Application Developer from The Linux Foundation. These certifications reflect my dedication to staying at the forefront of technology.
+        </p>
+        <br>
+        <p>
+            Throughout my career, I've had the privilege of working with diverse companies, from startups to Fortune 500 giants. I've built, deployed, and tested application infrastructure on AWS using Terraform and Docker, crafted intricate workflows for deploying code, and optimized Java services for peak performance. My DevOps expertise extends to Docker, Terraform, AWS, Ansible, Kubernetes, Jenkins, Gitlab CI, Github Actions, DataDog, Prometheus, Grafana, and various databases.
+        </p>
+        <br>
+        <p>
+            When I'm not coding, you can find me contributing to open source projects, expanding my knowledge, and mentoring aspiring developers. Currently, I'm pursuing the NYU Tandon Bridge Course, with plans to complete it by December, and I'm excited to embark on the next phase of my journey by applying to the NYU MSCS program.
+        </p>
+        <br>
+        <p>
+            Thank you for visiting my website. If you're interested in collaboration, learning, or just connecting, please don't hesitate to reach out to me <a href="/contact/">Here</a>.
+        </p>
+    </section>
+    
+    <br>
+    <hr>
+    <br>
+
+    <div class="iconSet">
+        <a class="imageIcon" href="https://www.upwork.com/freelancers/~0160fe31eb0e40f762" target="_blank">
+            <img src="{% static 'images/upwork_icon.png' %}" alt="Upwork Icon">
+        </a>
+        <a class="imageIcon" href="https://linkedin.com/in/jonathanmath/" target="_blank">
+            <img src="{% static 'images/linkedin_icon.png' %}" alt="Linkedin Icon">
+        </a>
+        <a class="imageIcon" href="https://github.com/jmath1/" target="_blank">
+            <img src="{% static 'images/github_icon.svg' %}" alt="Github Icon">
+        </a>
+    </div>
+    
+</section>
+
+{% endblock %}
+
+{% block blacksection %}
+<section class="blackSection">
+    <div class="blackIconSet">
+        <a class="blackImageIcon" href="https://www.credly.com/badges/cd8823a5-ae06-48a0-90a6-8fc481e0c833/public_url" target="_blank">
+            <img src="{% static 'images/aws_sa_icon.png' %}" alt="AWS Certified Solutions Architect Associate Icon">
+        </a>
+        <a class="blackImageIcon" href="https://www.credly.com/badges/a95a440a-1840-492c-bf09-6dc4def20f35/public_url" target="_blank">
+            <img src="{% static 'images/ckad_icon.png' %}" alt="Certified Kubernetes Application Developer Icon">
+        </a>
+        <a class="blackImageIcon" href="https://www.credly.com/badges/4986d3ef-0dfb-40bf-84aa-37e3748fbf66/public_url" target="_blank">
+            <img src="{% static 'images/aws_dev_icon.png' %}" alt="AWS Certified Developer Associate Icon">
+        </a>
+        <a class="blackImageIcon" href="https://www.credly.com/badges/b27d5829-16d6-4169-9d38-db91075163ab/public_url" target="_blank">
+            <img src="{% static 'images/aws_cloud_practitioner_icon.png' %}" alt="AWS Certified Cloud Practitioner Icon">
+        </a>
+        <a class="blackImageIcon" href="https://www.credly.com/badges/50c9933e-1e19-4e24-a8e6-40de75f31ba8/public_url" target="_blank">
+            <img src="{% static 'images/terraform_associate_icon.png' %}" alt="Hashicorp Certified Terraform Associate Icon">
+        </a>
+    </div>
 </section>
 {% endblock %}
