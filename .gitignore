@@ -3,3 +3,5 @@ volumes/
 venv/
 static/
 **/__pycache__/**
+.terraform
+.terraform.lock.hcl
