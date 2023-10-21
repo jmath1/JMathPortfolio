@@ -1,7 +1,7 @@
-from crispy_forms.layout import Layout, Field
-from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Field, Layout, Submit
+from django import forms
+
 
 class ContactForm(forms.Form):
     name = forms.CharField(label='Your name', max_length=100)
