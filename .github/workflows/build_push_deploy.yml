@@ -1,0 +1,41 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Terraform
+      run: |
+        wget https://releases.hashicorp.com/terraform/0.14.7/terraform_0.14.7_linux_amd64.zip
+        unzip terraform_0.14.7_linux_amd64.zip
+        sudo mv terraform /usr/local/bin/
+        rm terraform_0.14.7_linux_amd64.zip
+
+    - name: Initialize Terraform
+      run: |
+        cd _infrastructure/terraform/stacks/registry
+        terraform init
+
+    - name: Login to Docker Registry
+      run: |
+        registry_url=$(terraform -chdir=_infrastructure/terraform/stacks/registry output -raw registry_url)
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${registry_url}
+        docker build --file portfolio/Dockerfile ./portfolio -t ${registry_url}:django
+        docker push ${registry_url}:django
+
+    - name: Stop ECS Task so it resets - quick and dirty with some downtime but I'm not setting up blue/green deployments with code deploy right now
+      run: |
+        aws ecs update-service --cluster jmath-prod --service jmath-prod-service --desired-count 0
+
+    - name: Cleanup
+      run: |
+        docker logout
