@@ -1,0 +1,90 @@
+version: '3'
+
+tasks:
+  build:
+    description: Build Django service
+    usage: "task build -- api"
+    cmds:
+      - service={{.CLI_ARGS}}; 
+        docker build --file _infrastructure/docker/${service}.Dockerfile ./${service}
+
+  push:
+    description: Build and push all images to registry
+    usage: "task push"
+    cmds:
+      - registry_url=$(terraform -chdir=_infrastructure/terraform/stacks/registry output -raw registry_url );
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${registry_url};
+        docker build --file portfolio/Dockerfile ./portfolio -t ${registry_url}:django;     
+        docker push ${registry_url}:django;
+  tf_init:
+    description: Init an infrastructure stack. Do not use on the organization stack.
+    usage: "task tf_init -- staging registry"
+    cmds:
+      - env=$(echo {{ .CLI_ARGS }} | cut -d " " -f1); 
+        stack=$(echo {{ .CLI_ARGS }} | cut -d " " -f2);
+        terraform -chdir=_infrastructure/terraform/stacks/${stack} init -reconfigure -backend-config="key=${env}/${stack}.tfstate"
+
+  tf_apply:
+    description: Apply an infrastructure stack
+    usage: "task tf_apply -- staging registry"
+    cmds:
+      - env=$(echo {{ .CLI_ARGS }} | cut -d " " -f1); 
+        stack=$(echo {{ .CLI_ARGS }} | cut -d " " -f2);
+        terraform -chdir=_infrastructure/terraform/stacks/${stack} apply --var-file=../../_env/${env}/${stack}.tfvars
+  tf_import:
+    cmds:
+      - env=$(echo {{ .CLI_ARGS }} | cut -d " " -f1); 
+        stack=$(echo {{ .CLI_ARGS }} | cut -d " " -f2);
+        resource=$(echo {{ .CLI_ARGS }} | cut -d " " -f3);
+        resource_id=$(echo {{ .CLI_ARGS }} | cut -d " " -f4);
+        terraform -chdir=_infrastructure/terraform/stacks/${stack} import --var-file=../../_env/${env}/${stack}.tfvars ${resource} ${resource_id}
+  tf_destroy:
+    description: Destroy an infrastructure stack
+    usage: "task tf_destroy -- staging registry"
+    cmds:
+      - env=$(echo {{ .CLI_ARGS }} | cut -d " " -f1); 
+        stack=$(echo {{ .CLI_ARGS }} | cut -d " " -f2);
+        terraform -chdir=_infrastructure/terraform/stacks/${stack} destroy --var-file=../../_env/${env}/${stack}.tfvars
+
+  tf_console:
+    description: Use the console for an infrastructure stack
+    usage: "task tf_console -- staging registry"
+    cmds:
+      - env=$(echo {{ .CLI_ARGS }} | cut -d " " -f1); 
+        stack=$(echo {{ .CLI_ARGS }} | cut -d " " -f2);
+        terraform -chdir=_infrastructure/terraform/stacks/${stack} console --var-file=../../_env/${env}/${stack}.tfvars
+
+  tf_state_show:
+    description: Use the `state show` command for an infrastructure stack
+    usage: "task tf_state_show -- staging registry"
+    cmds:
+      - env=$(echo {{ .CLI_ARGS }} | cut -d " " -f1); 
+        stack=$(echo {{ .CLI_ARGS }} | cut -d " " -f2);
+        terraform -chdir=_infrastructure/terraform/stacks/${stack} state list
+
+  tf_output_raw:
+    description: Output an argument from a state
+    usage: "task tf_output_raw -- registry registry_url"
+    cmds:
+      - stack=$(echo {{ .CLI_ARGS }} | cut -d " " -f1); 
+        output=$(echo {{ .CLI_ARGS }} | cut -d " " -f2);
+        echo $(terraform -chdir=_infrastructure/terraform/stacks/${stack} output -raw ${output})
+
+  tf_output:
+    description: Output all of the outputs from the state
+    usage: "task tf_output -- registry"
+    cmds:
+      - stack=$(echo {{ .CLI_ARGS }} | cut -d " " -f1); 
+        output=$(echo {{ .CLI_ARGS }} | cut -d " " -f2);
+        echo $(terraform -chdir=_infrastructure/terraform/stacks/${stack} output)
+  
+  vpn_create_client:
+    description: creates a new vpn client
+    usage: "task vpn_create_client -- jonathan"
+    cmds:
+      - ssh ubuntu@$(terraform -chdir=_infrastructure/terraform/stacks/vpn output -raw open_vpn_ip) "sudo bash -s " < _infrastructure/terraform/stacks/vpn/client_creator.sh {{ .CLI_ARGS}}
+
+  vpn_ssh:
+    description: ssh into the vpn server
+    cmds:
+      - ssh ubuntu@$(terraform -chdir=_infrastructure/terraform/stacks/vpn output -raw open_vpn_ip)
