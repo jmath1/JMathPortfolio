@@ -5,3 +5,6 @@ static/
 **/__pycache__/**
 .terraform
 .terraform.lock.hcl
+*.sqlite3
+*.ovpn
+.DS_Store
