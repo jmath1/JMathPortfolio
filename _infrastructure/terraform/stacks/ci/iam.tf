@@ -40,6 +40,26 @@ resource "aws_s3_bucket_policy" "github_runner_s3_policy" {
   })
 }
 
+resource "aws_iam_policy" "ecs_policy" {
+  name        = "ECSPolicy"
+  description = "Allows full access to ECS"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Sid    = "ECSPermissions"
+        Effect = "Allow",
+        Action = ["ecs:*"
+        ],
+        Resource = [
+          "*"
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy" "ecr_policy" {
   name        = "ECRPolicy"
   description = "Allows full access to ECR"
@@ -67,6 +87,11 @@ resource "aws_iam_role_policy_attachment" "assume_role_attachment" {
 resource "aws_iam_role_policy_attachment" "ecr_policy_attachment" {
   role       = aws_iam_role.github_runner_role.name
   policy_arn = aws_iam_policy.ecr_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_policy_attachment" {
+  role       = aws_iam_role.github_runner_role.name
+  policy_arn = aws_iam_policy.ecs_policy.arn
 }
 
 resource "aws_iam_policy" "assume_role_policy" {
