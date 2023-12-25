@@ -1,6 +1,6 @@
 ### This is an open source website to showcase work, certifications, and skills as a software engineer.
 
-#### Backend
+### Backend
 * Django
 * PostgreSQL
 
@@ -25,3 +25,4 @@
 * Terraform Infrastructure
 * Gitlab CI
 * S3 Bucket static file storage
+* Github Workflows for Deployment
