@@ -9,7 +9,9 @@ jobs:
   build-and-deploy:
 
     runs-on: ubuntu-latest
-
+    env:
+      ROLE_ARN: arn:aws:iam::471528030347:role/github-runner-role
+      AWS_REGION: us-east-1
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
