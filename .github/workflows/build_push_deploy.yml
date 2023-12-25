@@ -7,6 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -19,11 +20,17 @@ jobs:
         unzip terraform_0.14.7_linux_amd64.zip
         sudo mv terraform /usr/local/bin/
         rm terraform_0.14.7_linux_amd64.zip
-
+    - name: Set environment variable
+      run: |
+        if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+          echo "ENV=prod" >> $GITHUB_ENV
+        elif [ "${{ github.ref }}" = "refs/heads/staging" ]; then
+          echo "ENV=stage" >> $GITHUB_ENV
+        fi
     - name: Initialize Terraform
       run: |
-        cd _infrastructure/terraform/stacks/registry
-        terraform init
+        terraform -chdir=_infrastructure/terraform/stacks/registry init -reconfigure -backend-config="key=${{ env.ENV }}/registry.tfstate"
+
 
     - name: Login to Docker Registry
       run: |
@@ -34,7 +41,7 @@ jobs:
 
     - name: Stop ECS Task so it resets - quick and dirty with some downtime but I'm not setting up blue/green deployments with code deploy right now
       run: |
-        aws ecs update-service --cluster jmath-prod --service jmath-prod-service --desired-count 0
+        aws ecs update-service --cluster jmath-${{ env.ENV }} --service jmath-${{ env.ENV }}-service --desired-count 0
 
     - name: Cleanup
       run: |
