@@ -9,6 +9,9 @@ jobs:
   build-and-deploy:
 
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     env:
       ROLE_ARN: arn:aws:iam::471528030347:role/github-runner-role
       AWS_REGION: us-east-1
