@@ -52,6 +52,7 @@ jobs:
     - name: Stop ECS Task so it resets - quick and dirty with some downtime but I'm not setting up blue/green deployments with code deploy right now
       run: |
         aws ecs update-service --cluster jmath-${{ env.ENV }} --service jmath-${{ env.ENV }}-service --desired-count 0
+        aws ecs update-service --cluster jmath-${{ env.ENV }} --service jmath-${{ env.ENV }}-service --desired-count 1
 
     - name: Cleanup
       run: |
