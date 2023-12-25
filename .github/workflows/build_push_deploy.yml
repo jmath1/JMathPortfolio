@@ -29,6 +29,11 @@ jobs:
         elif [ "${{ github.ref }}" = "refs/heads/staging" ]; then
           echo "ENV=stage" >> $GITHUB_ENV
         fi
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: ${{ env.ROLE_ARN }}
+        aws-region: ${{ env.AWS_REGION }}
     - name: Initialize Terraform
       run: |
         terraform -chdir=_infrastructure/terraform/stacks/registry init -reconfigure -backend-config="key=${{ env.ENV }}/registry.tfstate"
