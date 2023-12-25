@@ -15,6 +15,12 @@ def home(request):
 def about(request):
     return render(request, 'about.html', {})
 
+def cv(request):
+    return render(request, 'cv.html', {})
+
+def contact_success(request):
+    return render(request, 'contact_success.html', {})
+
 def healthcheck(request):
     return HttpResponse("OK")
 
@@ -40,12 +46,10 @@ def contact(request):
                 Message=json.dumps({'default': json.dumps(message_data)}),
                 MessageStructure='json'
             )
+            if response.get("ResponseMetadata").get("HTTPStatusCode") == 200:
+                return redirect('success_page')
+            return HttpResponse(status_code=500)
 
-            # Check the SNS response if needed
-
-            return HttpResponse('Thank you for your message!')
-            # Redirect after successful form submission
-            return redirect('success_page')  # Create a success page URL in your URLs configuration
 
     else:
         form = ContactForm()
