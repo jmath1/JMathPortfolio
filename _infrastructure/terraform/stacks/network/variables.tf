@@ -2,6 +2,9 @@ variable "env" {
   type = string
 }
 
+variable "account_number" {
+  type = string
+}
 variable "name" {
   type    = string
   default = "jmath"

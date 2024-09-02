@@ -88,3 +88,8 @@ tasks:
     description: ssh into the vpn server
     cmds:
       - ssh ubuntu@$(terraform -chdir=_infrastructure/terraform/stacks/vpn output -raw open_vpn_ip)
+
+  lite_ssh:
+    description: ssh into lite server
+    cmds:
+      - ssh ubuntu@$(terraform -chdir=_infrastructure/terraform/stacks/lite output -raw lite_ip)

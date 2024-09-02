@@ -11,7 +11,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
       {
         "Effect" : "Allow",
         "Principal" : {
-          "AWS" : "arn:aws:iam::471528030347:root"
+          "AWS" : "arn:aws:iam::${var.account_number}:root"
         },
         "Action" : "s3:*",
         "Resource" : "${aws_s3_bucket.access_logs.arn}/*"

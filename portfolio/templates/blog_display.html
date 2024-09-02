@@ -6,17 +6,6 @@
 {% block content %}
 <section class="whiteSection">
     <h2>And this is my Blog List</h2>
-    
-    <pre><code>
-    provider "jmath" {
-        region = "us-east-1"
-    }
-
-    resource "list_display" "blog" {
-        bucket = "blogs"
-        acl    = "you"
-    }
-    </code></pre>
     {% for article in articles %}
         {{ article }}
     {% endfor %}

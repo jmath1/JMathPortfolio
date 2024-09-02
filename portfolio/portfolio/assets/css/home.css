@@ -110,8 +110,8 @@ html {
 
 /* Style individual image icons */
 .imageIcon img {
-    width: 110px; /* Adjust the size as needed */
-    height: 110px; /* Adjust the size as needed */
+    width: 100px; /* Adjust the size as needed */
+    height: 100px; /* Adjust the size as needed */
     margin: 10px; /* Adjust the margin as needed for spacing */
 }
 

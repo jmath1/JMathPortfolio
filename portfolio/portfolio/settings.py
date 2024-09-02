@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY", "IN_LITE_MODE")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 if os.getenv("DEBUG") == "True":
     DEBUG = True
 
@@ -45,14 +45,24 @@ if os.getenv("FARGATE_TASK"):
         logger.debug("Getting host IP")
         ecs_metadata_url = os.environ.get('ECS_METADATA_URL', 'http://169.254.170.2/v3/metadata')
 
-        # Get the ECS host IP using the ECS metadata URL
         ecs_host_ip_response = requests.get(f"{ecs_metadata_url}/task")
         logger.debug(f"ECS Host IP Response: {ecs_host_ip_response.text}")
         ecs_host_ip = ecs_host_ip_response.json()['Containers'][0]['Networks'][0]['IPv4Addresses'][0]
-
-        # Log the ECS metadata response using the default Django logger
     except Exception as e:
         logger.error(e)
+if os.getenv("LITE"):
+    logger.debug("Getting EC2 instance public IP")
+    # Using the EC2 instance metadata service to get the public IP
+    ec2_metadata_url = "http://169.254.169.254/latest/meta-data/public-ipv4"
+
+    response = requests.get(ec2_metadata_url)
+    ec2_public_ip = response.text
+
+    # Add the public IP or hostname to ALLOWED_HOSTS
+    ALLOWED_HOSTS.append(ec2_public_ip)
+    # ALLOWED_HOSTS.append(ec2_public_hostname)
+
+    logger.debug(f"EC2 Public IP: {ec2_public_ip}")
 
     
 INSTALLED_APPS = [
@@ -104,11 +114,11 @@ WSGI_APPLICATION = "portfolio.wsgi.application"
 # Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE':  'django.db.backends.sqlite3' if os.environ.get('LITE') else 'django.db.backends.postgresql',
         'NAME': os.environ.get('POSTGRES_DB', 'mydatabase'),
         'USER': os.environ.get('POSTGRES_USER', 'mydatabaseuser'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'mypassword'),
-        'HOST': os.environ.get('DB_HOST', 'db'),  # Use the service name of your PostgreSQL container
+        'HOST': os.environ.get('DB_HOST', 'jmath.c2prkpseuzwx.us-east-1.rds.amazonaws.com'),  # Use the service name of your PostgreSQL container
         'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }

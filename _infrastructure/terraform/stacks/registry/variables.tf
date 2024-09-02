@@ -1,9 +1,12 @@
 variable "env" {
   type = string
 }
+variable "account_number" {
+  type = string
+}
 
 variable "trusted_accounts" {
-  default = ["471528030347"]
+  default = []
 }
 
 variable "github_repository_owner" {

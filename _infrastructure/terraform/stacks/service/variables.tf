@@ -7,9 +7,8 @@ variable "name" {
   default = "jmath"
 }
 
-variable "account_id" {
+variable "account_number" {
   type = string
-  default = "471528030347"
 }
 
 variable "contact_email" {

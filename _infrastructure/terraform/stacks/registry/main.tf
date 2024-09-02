@@ -10,7 +10,7 @@ data "aws_iam_policy_document" "root_allow" {
 
     principals {
       type        = "AWS"
-      identifiers = var.trusted_accounts
+      identifiers = concat(var.trusted_accounts, [var.account_number])
     }
 
     actions = [

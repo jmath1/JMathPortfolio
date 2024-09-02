@@ -10,12 +10,12 @@ data "aws_iam_policy_document" "ecs_task_assume_role" {
     condition {
       test     = "StringEquals"
       variable = "aws:SourceAccount"
-      values   = [var.account_id]
+      values   = [var.account_number]
     }
     condition {
       test     = "ArnLike"
       variable = "aws:SourceArn"
-      values   = ["arn:aws:ecs:us-east-1:${var.account_id}:*"]
+      values   = ["arn:aws:ecs:us-east-1:${var.account_number}:*"]
     }
   }
 }

@@ -32,7 +32,7 @@ resource "aws_security_group" "vpn" {
 
 resource "aws_instance" "_" {
   ami           = "ami-053b0d53c279acc90"
-  instance_type = "t2.micro"
+  instance_type = "t2.nano"
 
   key_name                    = aws_key_pair._.key_name
   security_groups             = [aws_security_group.vpn.id]
