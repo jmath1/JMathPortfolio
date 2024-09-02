@@ -28,14 +28,14 @@ There are more commands than what is listed above. Refer to the Taskfile for usa
 
 There is an order of dependencies for stacks. It goes:
 
-1. domain - this will require the manual step of adding cnames to namecheap
-2. vpn
-3. network
-4. registry
-5. secrets
-6. persistence
-7. service
-8. ci
+1. domain - this will require the manual step of adding cnames to namecheap to verify
+2. network - set up the network including public and private subnets
+3. vpn - set up a vpn to access the db and registry
+4. registry - set up ECR
+5. secrets - deploy secrets from a .env file
+6. persistence - deploy the db and s3
+7. service - the ECS cluster, service, load balancer, and route53 record
+8. ci - the Github OIDC configuration
 
 If you need to destroy a stack, you must destroy the stacks which depend on it first or else you will run into problems and need to repair your state/infrastructure before you proceed.
 
